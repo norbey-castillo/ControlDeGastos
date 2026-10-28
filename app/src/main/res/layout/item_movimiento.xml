@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Este sera el dise;o individual de cada ingreso o egreso-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:layout_marginBottom="8dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/tvDescripcionMovimiento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descripción del movimiento"
+        android:textColor="#173D2B"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvCategoriaMovimiento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Categoría"
+        android:textColor="#66756B"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tvMontoMovimiento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Q 100.00"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

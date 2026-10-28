@@ -170,17 +170,27 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvMovimientosVacios"
+        <!-- Aca cuando registremos el primero, quitaremos el mensaje de que la lista
+        esta vacia y mostraremos los movimientos -->
+        <LinearLayout
+            android:id="@+id/contenedorMovimientos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:padding="24dp"
-            android:text="Aún no tienes movimientos registrados."
-            android:textColor="#66756B"
-            android:textSize="14sp" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMovimientosVacios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:padding="24dp"
+                android:text="Aún no tienes movimientos registrados."
+                android:textColor="#66756B"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
