@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ControlDeGastos"
 include(":app")
- 
+include(":core")
