@@ -160,6 +160,15 @@
             android:text="－  Registrar gasto"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/btnHistorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Ver historial de movimientos"
+            android:textAllCaps="false" />
+
+
         <!-- Aqui estan los movimientos que se hicieron recientemente -->
         <TextView
             android:layout_width="wrap_content"

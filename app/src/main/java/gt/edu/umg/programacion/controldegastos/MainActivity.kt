@@ -1,6 +1,7 @@
-
 package gt.edu.umg.programacion.controldegastos
 
+import android.content.Intent
+import gt.edu.umg.programacion.controldegastos.historial.HistorialActivity
 import gt.edu.umg.programacion.controldegastos.data.MovimientoDbHelper
 import android.os.Bundle
 import android.graphics.Color
@@ -34,6 +35,13 @@ class MainActivity : AppCompatActivity() {
 
         val btnIngreso = findViewById<Button>(R.id.btnIngreso)
         val btnGasto = findViewById<Button>(R.id.btnGasto)
+        val btnHistorial = findViewById<Button>(R.id.btnHistorial)
+
+
+        btnHistorial.setOnClickListener {
+            val intent = Intent(this, HistorialActivity::class.java)
+            startActivity(intent)
+        }
 
         btnIngreso.setOnClickListener {
             mostrarFormulario(TipoMovimiento.INGRESO)
