@@ -3,54 +3,57 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F5F0"
+    android:background="#F3F5F1"
     android:fillViewport="true">
 
+    <!-- Contenedor principal: mantiene todo el contenido en una columna -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!--Aca vamos a tener el encabezado -->
+        <!-- ENCABEZADO -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ControlDeGastos"
-            android:textColor="#173D2B"
-            android:textSize="27sp"
+            android:textColor="#173F30"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:text="Gestiona tus finanzas de forma simple"
-            android:textColor="#66756B"
+            android:textColor="#718078"
             android:textSize="14sp" />
 
-        <!-- En esta parte del codigo esta la tarjeta de saldos -->
+        <!-- TARJETA DE SALDO PRINCIPAL -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="#173D2B"
+            android:layout_marginTop="26dp"
+            android:background="@drawable/bg_saldo"
+            android:elevation="5dp"
             android:orientation="vertical"
-            android:padding="22dp">
+            android:padding="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SALDO DISPONIBLE"
-                android:textColor="#D7E6D9"
+                android:textColor="#C9DED1"
                 android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:letterSpacing="0.08" />
 
             <TextView
                 android:id="@+id/tvSaldo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:text="Q 0.00"
                 android:textColor="#FFFFFF"
                 android:textSize="34sp"
@@ -61,24 +64,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Tu resumen financiero"
-                android:textColor="#D7E6D9"
-                android:textSize="13sp" />
+                android:textColor="#C9DED1"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
-        <!-- Aqui pues basicamente pondremos un resumen de los ingresos y los gastos -->
+        <!-- RESUMEN DE INGRESOS Y GASTOS -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="18dp"
             android:orientation="horizontal">
 
+            <!-- TARJETA DE INGRESOS -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="7dp"
                 android:layout_weight="1"
-                android:background="#FFFFFF"
+                android:background="@drawable/bg_tarjeta"
+                android:elevation="2dp"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -86,28 +91,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="INGRESOS"
-                    android:textColor="#66756B"
+                    android:textColor="#718078"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvIngresos"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="9dp"
                     android:text="Q 0.00"
-                    android:textColor="#218653"
-                    android:textSize="20sp"
+                    android:textColor="#24845D"
+                    android:textSize="19sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
+            <!-- TARJETA DE GASTOS -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="7dp"
                 android:layout_weight="1"
-                android:background="#FFFFFF"
+                android:background="@drawable/bg_tarjeta"
+                android:elevation="2dp"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -115,96 +122,118 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="GASTOS"
-                    android:textColor="#66756B"
+                    android:textColor="#718078"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvGastos"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="9dp"
                     android:text="Q 0.00"
-                    android:textColor="#C34D43"
-                    android:textSize="20sp"
+                    android:textColor="#C6534D"
+                    android:textSize="19sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Aca definimos cuales seran las acciones principales de
-         los elementos de la aplicacion-->
+        <!-- SECCIÓN DE OPERACIONES -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="30dp"
             android:text="Operaciones"
-            android:textColor="#173D2B"
-            android:textSize="20sp"
+            android:textColor="#173F30"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
+        <!-- BOTÓN PARA REGISTRAR INGRESOS -->
         <Button
             android:id="@+id/btnIngreso"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_boton_principal"
+            android:backgroundTint="@null"
+            android:elevation="2dp"
             android:text="＋  Registrar ingreso"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
 
+        <!-- BOTÓN PARA REGISTRAR GASTOS -->
         <Button
             android:id="@+id/btnGasto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_boton_secundario"
+            android:backgroundTint="@null"
+            android:elevation="1dp"
             android:text="－  Registrar gasto"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#173F30"
+            android:textSize="15sp" />
 
+        <!-- BOTÓN PARA ABRIR EL HISTORIAL -->
         <Button
             android:id="@+id/btnHistorial"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_boton_secundario"
+            android:backgroundTint="@null"
+            android:elevation="1dp"
             android:text="Ver historial de movimientos"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#173F30"
+            android:textSize="15sp" />
 
+        <!-- BOTÓN PARA ABRIR LAS ESTADÍSTICAS -->
         <Button
             android:id="@+id/btnEstadisticas"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_boton_secundario"
+            android:backgroundTint="@null"
+            android:elevation="1dp"
             android:text="Ver estadísticas financieras"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#173F30"
+            android:textSize="15sp" />
 
-
-        <!-- Aqui estan los movimientos que se hicieron recientemente -->
+        <!-- SECCIÓN DE MOVIMIENTOS RECIENTES -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="32dp"
             android:text="Movimientos recientes"
-            android:textColor="#173D2B"
-            android:textSize="20sp"
+            android:textColor="#173F30"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
-        <!-- Aca cuando registremos el primero, quitaremos el mensaje de que la lista
-        esta vacia y mostraremos los movimientos -->
+        <!-- AQUÍ SE AGREGAN DINÁMICAMENTE LOS MOVIMIENTOS -->
         <LinearLayout
             android:id="@+id/contenedorMovimientos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:orientation="vertical">
 
+            <!-- MENSAJE QUE APARECE CUANDO NO HAY MOVIMIENTOS -->
             <TextView
                 android:id="@+id/tvMovimientosVacios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
+                android:background="@drawable/bg_tarjeta"
                 android:gravity="center"
-                android:padding="24dp"
+                android:padding="26dp"
                 android:text="Aún no tienes movimientos registrados."
-                android:textColor="#66756B"
+                android:textColor="#718078"
                 android:textSize="14sp" />
 
         </LinearLayout>

@@ -1,37 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Este sera el dise;o individual de cada ingreso o egreso-->
+
+<!-- Diseño visual individual de cada movimiento -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="14dp"
-    android:layout_marginBottom="8dp"
-    android:background="#FFFFFF">
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_tarjeta"
+    android:elevation="2dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="18dp">
 
-    <TextView
-        android:id="@+id/tvDescripcionMovimiento"
-        android:layout_width="match_parent"
+    <!-- Información descriptiva del movimiento -->
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Descripción del movimiento"
-        android:textColor="#173D2B"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvCategoriaMovimiento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Categoría"
-        android:textColor="#66756B"
-        android:textSize="13sp" />
+        <!-- Descripción -->
+        <TextView
+            android:id="@+id/tvDescripcionMovimiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descripción del movimiento"
+            android:textColor="#173F30"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
+        <!-- Categoría -->
+        <TextView
+            android:id="@+id/tvCategoriaMovimiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Categoría"
+            android:textColor="#718078"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <!-- Monto del movimiento -->
     <TextView
         android:id="@+id/tvMontoMovimiento"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:gravity="end|center_vertical"
         android:text="Q 100.00"
+        android:textColor="#24845D"
         android:textSize="17sp"
         android:textStyle="bold" />
 

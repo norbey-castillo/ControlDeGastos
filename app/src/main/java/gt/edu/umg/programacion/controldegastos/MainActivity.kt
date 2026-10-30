@@ -30,15 +30,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        /*Aca se van a recuperar los movimientos guardados cada vez que se cierra la aplicacion*/
-        dbHelper = MovimientoDbHelper(this)
-        movimientos.addAll(dbHelper.obtenerMovimientos())
 
+// Obtenemos las referencias de los cuatro botones
         val btnIngreso = findViewById<Button>(R.id.btnIngreso)
         val btnGasto = findViewById<Button>(R.id.btnGasto)
         val btnHistorial = findViewById<Button>(R.id.btnHistorial)
         val btnEstadisticas = findViewById<Button>(R.id.btnEstadisticas)
 
+// Quitamos el tinte automático aplicado por el tema de Android
+        btnIngreso.backgroundTintList = null
+        btnGasto.backgroundTintList = null
+        btnHistorial.backgroundTintList = null
+        btnEstadisticas.backgroundTintList = null
+
+// Aplicamos nuestros fondos personalizados
+        btnIngreso.setBackgroundResource(R.drawable.bg_boton_principal)
+
+        btnGasto.setBackgroundResource(R.drawable.bg_boton_secundario)
+        btnHistorial.setBackgroundResource(R.drawable.bg_boton_secundario)
+        btnEstadisticas.setBackgroundResource(R.drawable.bg_boton_secundario)
+
+
+        /*Aca se van a recuperar los movimientos guardados cada vez que se cierra la aplicacion*/
+        dbHelper = MovimientoDbHelper(this)
+        movimientos.addAll(dbHelper.obtenerMovimientos())
 
         btnEstadisticas.setOnClickListener {
             val intent = Intent(this, EstadisticasActivity::class.java)
