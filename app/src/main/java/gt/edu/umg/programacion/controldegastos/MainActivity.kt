@@ -137,6 +137,149 @@ class MainActivity : AppCompatActivity() {
         dialogo.show()
     }
 
+
+    // Muestra el formulario con los datos actuales del movimiento.
+    private fun mostrarFormularioEdicion(movimiento: Movimiento) {
+
+        val formulario = layoutInflater.inflate(
+            R.layout.dialog_movimiento,
+            null
+        )
+
+        val etDescripcion =
+            formulario.findViewById<EditText>(R.id.etDescripcion)
+
+        val etMonto =
+            formulario.findViewById<EditText>(R.id.etMonto)
+
+        val etCategoria =
+            formulario.findViewById<EditText>(R.id.etCategoria)
+
+        // Carga los valores actuales en los campos.
+        etDescripcion.setText(movimiento.descripcion)
+        etMonto.setText(movimiento.monto.toString())
+        etCategoria.setText(movimiento.categoria)
+
+        val dialogo = AlertDialog.Builder(this)
+            .setTitle("Editar movimiento")
+            .setView(formulario)
+            .setNegativeButton("Cancelar", null)
+            .setPositiveButton("Guardar cambios", null)
+            .create()
+
+        dialogo.setOnShowListener {
+            dialogo.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener {
+
+                    val descripcion =
+                        etDescripcion.text.toString().trim()
+
+                    val montoTexto =
+                        etMonto.text.toString().trim().replace(",", ".")
+
+                    val categoria =
+                        etCategoria.text.toString().trim()
+
+                    val monto = montoTexto.toDoubleOrNull()
+
+                    if (
+                        descripcion.isBlank() ||
+                        categoria.isBlank() ||
+                        monto == null ||
+                        !monto.isFinite() ||
+                        monto <= 0
+                    ) {
+                        Toast.makeText(
+                            this,
+                            "Ingresa datos válidos.",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                    } else {
+
+                        // Crea una copia conservando el ID y tipo originales.
+                        val movimientoActualizado = movimiento.copy(
+                            descripcion = descripcion,
+                            monto = monto,
+                            categoria = categoria
+                        )
+
+                        // Ejecuta UPDATE en SQLite.
+                        val resultado =
+                            dbHelper.actualizarMovimiento(
+                                movimientoActualizado
+                            )
+
+                        if (resultado > 0) {
+
+                            // Recupera los datos actualizados.
+                            movimientos.clear()
+                            movimientos.addAll(
+                                dbHelper.obtenerMovimientos()
+                            )
+
+                            // Actualiza los totales y el historial.
+                            actualizarDashboard()
+
+                            Toast.makeText(
+                                this,
+                                "Movimiento actualizado.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            dialogo.dismiss()
+
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "No se pudo actualizar el movimiento.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+        }
+
+        dialogo.show()
+    }
+
+    // Solicita confirmación antes de eliminar un movimiento.
+    private fun confirmarEliminacion(movimiento: Movimiento) {
+
+        AlertDialog.Builder(this)
+            .setTitle("Eliminar movimiento")
+            .setMessage(
+                "¿Deseas eliminar \"${movimiento.descripcion}\"?"
+            )
+            .setNegativeButton("Cancelar", null)
+            .setPositiveButton("Eliminar") { _, _ ->
+
+                // Ejecuta DELETE en SQLite.
+                val resultado =
+                    dbHelper.eliminarMovimiento(movimiento.id)
+
+                if (resultado > 0) {
+
+                    // Actualiza la lista con los registros restantes.
+                    movimientos.clear()
+                    movimientos.addAll(
+                        dbHelper.obtenerMovimientos()
+                    )
+
+                    // Recalcula los totales.
+                    actualizarDashboard()
+
+                    Toast.makeText(
+                        this,
+                        "Movimiento eliminado.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .show()
+    }
+
+
     private fun actualizarDashboard() {
         val ingresos = calculadora.calcularIngresos(movimientos)
         val gastos = calculadora.calcularGastos(movimientos)
@@ -201,38 +344,23 @@ class MainActivity : AppCompatActivity() {
 
             //Permite eliminar un movimiento manteniendo presionada su fila.
             fila.setOnLongClickListener {
-                //Solicita confirmacion antes de elimianr el registro.
+
+                val opciones = arrayOf("Editar", "Eliminar")
+
                 AlertDialog.Builder(this)
-                    .setTitle("Eliminar movimiento")
-                    .setMessage("Estas seguro de que deseas eliminar \"${movimiento.descripcion}\"?"
-                    )
-                    .setNegativeButton("Cancelar", null)
-                    .setPositiveButton("Eliminar") { _, _ ->
+                    .setTitle(movimiento.descripcion)
+                    .setItems(opciones) { _, seleccion ->
 
-                        //Elimina el movimiento de la base de datos.
-                        val filasEliminadas = dbHelper.eliminarMovimiento(movimiento.id)
-
-                        if (filasEliminadas > 0) {
-
-                            //Recuperar nuevamente los movimientos almacenados
-                            movimientos.clear()
-                            movimientos.addAll( dbHelper.obtenerMovimientos()
-                            )
-
-                            //Recalcula los totales y actualiza la interfaz.
-                            actualizarDashboard()
-
-                            Toast.makeText(
-                                this,
-                                "Movimiento eliminado correctamente.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        when (seleccion) {
+                            0 -> mostrarFormularioEdicion(movimiento)
+                            1 -> confirmarEliminacion(movimiento)
                         }
                     }
                     .show()
-                //Indica que el evento de pulsacion prolongada fue atendido.
+
                 true
             }
+
         }
     }
 

@@ -47,7 +47,9 @@ class MovimientoDbHelper(context: Context) :
     ) {
         // Aquí agregaremos futuras migraciones de la base de datos.
     }
+    /*ACA BASICAMENTE ESTA LA FUNCIONALIDAD DEL CRUD*/
 
+    /*CON ESTA FUNCION SE INSERTA UN NUEVO REGISTRO EN LA TABLA (CREATE) */
     fun insertarMovimiento(movimiento: Movimiento): Long {
         val valores = ContentValues().apply {
             put(COL_DESCRIPCION, movimiento.descripcion)
@@ -60,6 +62,26 @@ class MovimientoDbHelper(context: Context) :
         return writableDatabase.insert(TABLA, null, valores)
     }
 
+    /*CON ESTA FUNCION ACTUALIZAMOS UN REGISTRO EXISTENTE (UPDATE)*/
+    fun actualizarMovimiento(movimiento: Movimiento): Int {
+        //Prepara los nuevos valores que se almacenaran.
+        val valores = ContentValues().apply {
+            put("descripcion", movimiento.descripcion)
+            put("monto", movimiento.monto)
+            put("tipo", movimiento.tipo.name)
+            put("categoria", movimiento.categoria)
+            put("fecha", movimiento.fecha)
+        }
+
+        //Actualiza unicamente el registro cuyo ID coincida.
+        return writableDatabase.update(
+            TABLA,
+            valores,
+            "id=?",
+            arrayOf(movimiento.id.toString()))
+    }
+
+    /*CON ESTA FUNCION SE RECUPERAN TODOS LOS REGISTROS DE LA TABLA (READ)*/
     fun obtenerMovimientos(): List<Movimiento> {
         val lista = mutableListOf<Movimiento>()
 
@@ -98,12 +120,11 @@ class MovimientoDbHelper(context: Context) :
         return lista
     }
 
-    //Elimina un movimiento de SQlite utilizando su identificador.
-    //Devuelve la cantidad de filas eliminadas.
+    /*CON ESTA FUNCION SE ELIMINAN LOS REGISTROS DE LA TABLA (DELETE)*/
     fun eliminarMovimiento(id: Long): Int{
+
         //WritableDatabase permite realizar modificaciones.
         //El metodo delete elimina la fila cuyo ID coincida.
-
         return writableDatabase.delete(TABLA, "id=?", arrayOf(id.toString()))
     }
 
