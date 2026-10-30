@@ -19,6 +19,7 @@ import gt.edu.umg.programacion.core.finanzas.CalculadoraFinanciera
 import gt.edu.umg.programacion.core.model.Movimiento
 import gt.edu.umg.programacion.core.model.TipoMovimiento
 import java.util.Locale
+import android.widget.ArrayAdapter
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,12 +77,16 @@ class MainActivity : AppCompatActivity() {
         actualizarDashboard()
     }
 /*Esta funcion es la que vamos a usar para mostrar el formulario en pantalla*/
+
     private fun mostrarFormulario(tipo: TipoMovimiento) {
+
+        // Cargamos el diseño personalizado del formulario.
         val formulario = layoutInflater.inflate(
             R.layout.dialog_movimiento,
             null
         )
 
+        // Relacionamos los campos del formulario.
         val etDescripcion =
             formulario.findViewById<EditText>(R.id.etDescripcion)
 
@@ -91,22 +96,59 @@ class MainActivity : AppCompatActivity() {
         val etCategoria =
             formulario.findViewById<EditText>(R.id.etCategoria)
 
+        // Creamos un encabezado personalizado.
+        val titulo = TextView(this).apply {
+            text = if (tipo == TipoMovimiento.INGRESO) {
+                "Registrar ingreso"
+            } else {
+                "Registrar gasto"
+            }
+
+            textSize = 22f
+            setTextColor(android.graphics.Color.WHITE)
+            setPadding(24, 24, 24, 24)
+            setTypeface(null, android.graphics.Typeface.BOLD)
+
+            // Fondo verde oscuro con esquinas superiores redondeadas.
+            background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(android.graphics.Color.rgb(23, 63, 48))
+                cornerRadii = floatArrayOf(
+                    18f, 18f,
+                    18f, 18f,
+                    0f, 0f,
+                    0f, 0f
+                )
+            }
+        }
+
+        // Construimos el diálogo.
         val dialogo = AlertDialog.Builder(this)
-            .setTitle(
-                if (tipo == TipoMovimiento.INGRESO) {
-                    "Registrar ingreso"
-                } else {
-                    "Registrar gasto"
-                }
-            )
+            .setCustomTitle(titulo)
             .setView(formulario)
             .setNegativeButton("Cancelar", null)
             .setPositiveButton("Guardar", null)
             .create()
 
+        // Configuramos los colores cuando el diálogo aparece.
         dialogo.setOnShowListener {
+
+            // Fondo blanco y esquinas redondeadas.
+            dialogo.window?.setBackgroundDrawableResource(
+                R.drawable.bg_dialogo
+            )
+
+            // Botón cancelar.
+            dialogo.getButton(AlertDialog.BUTTON_NEGATIVE)
+                .setTextColor(android.graphics.Color.rgb(23, 63, 48))
+
+            // Botón guardar.
+            dialogo.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(android.graphics.Color.rgb(36, 132, 93))
+
+            // Configuramos la acción de guardar.
             dialogo.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener {
+
                     val descripcion =
                         etDescripcion.text.toString().trim()
 
@@ -118,6 +160,7 @@ class MainActivity : AppCompatActivity() {
 
                     val monto = montoTexto.toDoubleOrNull()
 
+                    // Validamos los datos ingresados.
                     if (
                         descripcion.isBlank() ||
                         categoria.isBlank() ||
@@ -125,12 +168,16 @@ class MainActivity : AppCompatActivity() {
                         !monto.isFinite() ||
                         monto <= 0
                     ) {
+
                         Toast.makeText(
                             this,
                             "Completa los campos y escribe un monto válido.",
                             Toast.LENGTH_LONG
                         ).show()
+
                     } else {
+
+                        // Creamos el movimiento.
                         val movimiento = Movimiento(
                             descripcion = descripcion,
                             monto = monto,
@@ -138,12 +185,19 @@ class MainActivity : AppCompatActivity() {
                             categoria = categoria
                         )
 
-                        val resultado = dbHelper.insertarMovimiento(movimiento)
+                        // Guardamos el movimiento en SQLite.
+                        val resultado =
+                            dbHelper.insertarMovimiento(movimiento)
 
-                        if (resultado != -1L){
+                        if (resultado != -1L) {
+
+                            // Actualizamos la lista de movimientos.
                             movimientos.clear()
-                            movimientos.addAll(dbHelper.obtenerMovimientos())
+                            movimientos.addAll(
+                                dbHelper.obtenerMovimientos()
+                            )
 
+                            // Actualizamos el Dashboard.
                             actualizarDashboard()
 
                             Toast.makeText(
@@ -153,7 +207,9 @@ class MainActivity : AppCompatActivity() {
                             ).show()
 
                             dialogo.dismiss()
-                        }else{
+
+                        } else {
+
                             Toast.makeText(
                                 this,
                                 "No se pudo guardar el movimiento.",
@@ -164,18 +220,23 @@ class MainActivity : AppCompatActivity() {
                 }
         }
 
+        // Mostramos el diálogo.
         dialogo.show()
     }
 
 
+
     // Muestra el formulario con los datos actuales del movimiento.
+
     private fun mostrarFormularioEdicion(movimiento: Movimiento) {
 
+        // Cargamos el diseño del formulario.
         val formulario = layoutInflater.inflate(
             R.layout.dialog_movimiento,
             null
         )
 
+        // Relacionamos los campos.
         val etDescripcion =
             formulario.findViewById<EditText>(R.id.etDescripcion)
 
@@ -185,19 +246,53 @@ class MainActivity : AppCompatActivity() {
         val etCategoria =
             formulario.findViewById<EditText>(R.id.etCategoria)
 
-        // Carga los valores actuales en los campos.
+        // Cargamos los datos actuales del movimiento.
         etDescripcion.setText(movimiento.descripcion)
         etMonto.setText(movimiento.monto.toString())
         etCategoria.setText(movimiento.categoria)
 
+        // Creamos el encabezado personalizado.
+        val titulo = TextView(this).apply {
+            text = "Editar movimiento"
+            textSize = 22f
+            setTextColor(android.graphics.Color.WHITE)
+            setPadding(24, 24, 24, 24)
+            setTypeface(null, android.graphics.Typeface.BOLD)
+
+            background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(android.graphics.Color.rgb(23, 63, 48))
+                cornerRadii = floatArrayOf(
+                    18f, 18f,
+                    18f, 18f,
+                    0f, 0f,
+                    0f, 0f
+                )
+            }
+        }
+
+        // Construimos el diálogo.
         val dialogo = AlertDialog.Builder(this)
-            .setTitle("Editar movimiento")
+            .setCustomTitle(titulo)
             .setView(formulario)
             .setNegativeButton("Cancelar", null)
             .setPositiveButton("Guardar cambios", null)
             .create()
 
         dialogo.setOnShowListener {
+
+            // Aplicamos el fondo personalizado.
+            dialogo.window?.setBackgroundDrawableResource(
+                R.drawable.bg_dialogo
+            )
+
+            // Personalizamos los botones.
+            dialogo.getButton(AlertDialog.BUTTON_NEGATIVE)
+                .setTextColor(android.graphics.Color.rgb(23, 63, 48))
+
+            dialogo.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(android.graphics.Color.rgb(36, 132, 93))
+
+            // Configuramos la acción de guardar cambios.
             dialogo.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener {
 
@@ -212,6 +307,7 @@ class MainActivity : AppCompatActivity() {
 
                     val monto = montoTexto.toDoubleOrNull()
 
+                    // Validamos los datos.
                     if (
                         descripcion.isBlank() ||
                         categoria.isBlank() ||
@@ -219,6 +315,7 @@ class MainActivity : AppCompatActivity() {
                         !monto.isFinite() ||
                         monto <= 0
                     ) {
+
                         Toast.makeText(
                             this,
                             "Ingresa datos válidos.",
@@ -227,14 +324,14 @@ class MainActivity : AppCompatActivity() {
 
                     } else {
 
-                        // Crea una copia conservando el ID y tipo originales.
+                        // Conservamos el ID y tipo originales.
                         val movimientoActualizado = movimiento.copy(
                             descripcion = descripcion,
                             monto = monto,
                             categoria = categoria
                         )
 
-                        // Ejecuta UPDATE en SQLite.
+                        // Actualizamos el registro en SQLite.
                         val resultado =
                             dbHelper.actualizarMovimiento(
                                 movimientoActualizado
@@ -242,13 +339,13 @@ class MainActivity : AppCompatActivity() {
 
                         if (resultado > 0) {
 
-                            // Recupera los datos actualizados.
+                            // Recuperamos los datos actualizados.
                             movimientos.clear()
                             movimientos.addAll(
                                 dbHelper.obtenerMovimientos()
                             )
 
-                            // Actualiza los totales y el historial.
+                            // Actualizamos el Dashboard.
                             actualizarDashboard()
 
                             Toast.makeText(
@@ -260,6 +357,7 @@ class MainActivity : AppCompatActivity() {
                             dialogo.dismiss()
 
                         } else {
+
                             Toast.makeText(
                                 this,
                                 "No se pudo actualizar el movimiento.",
@@ -274,10 +372,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Solicita confirmación antes de eliminar un movimiento.
+
     private fun confirmarEliminacion(movimiento: Movimiento) {
 
-        AlertDialog.Builder(this)
-            .setTitle("Eliminar movimiento")
+        // Creamos el encabezado personalizado.
+        val titulo = TextView(this).apply {
+            text = "Eliminar movimiento"
+            textSize = 22f
+            setTextColor(android.graphics.Color.WHITE)
+            setPadding(24, 24, 24, 24)
+            setTypeface(null, android.graphics.Typeface.BOLD)
+
+            background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(android.graphics.Color.rgb(23, 63, 48))
+                cornerRadii = floatArrayOf(
+                    18f, 18f,
+                    18f, 18f,
+                    0f, 0f,
+                    0f, 0f
+                )
+            }
+        }
+
+        // Construimos el diálogo de confirmación.
+        val dialogo = AlertDialog.Builder(this)
+            .setCustomTitle(titulo)
             .setMessage(
                 "¿Deseas eliminar \"${movimiento.descripcion}\"?"
             )
@@ -290,13 +409,13 @@ class MainActivity : AppCompatActivity() {
 
                 if (resultado > 0) {
 
-                    // Actualiza la lista con los registros restantes.
+                    // Recupera los registros restantes.
                     movimientos.clear()
                     movimientos.addAll(
                         dbHelper.obtenerMovimientos()
                     )
 
-                    // Recalcula los totales.
+                    // Actualiza los totales y movimientos.
                     actualizarDashboard()
 
                     Toast.makeText(
@@ -306,8 +425,37 @@ class MainActivity : AppCompatActivity() {
                     ).show()
                 }
             }
-            .show()
+            .create()
+
+        // Personalizamos la apariencia del diálogo.
+        dialogo.setOnShowListener {
+
+            dialogo.window?.setBackgroundDrawableResource(
+                R.drawable.bg_dialogo
+            )
+
+            // Color del mensaje.
+            dialogo.findViewById<TextView>(android.R.id.message)
+                ?.setTextColor(
+                    android.graphics.Color.rgb(23, 63, 48)
+                )
+
+            // Botón cancelar.
+            dialogo.getButton(AlertDialog.BUTTON_NEGATIVE)
+                .setTextColor(
+                    android.graphics.Color.rgb(23, 63, 48)
+                )
+
+            // Botón eliminar en rojo.
+            dialogo.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(
+                    android.graphics.Color.rgb(195, 77, 67)
+                )
+        }
+
+        dialogo.show()
     }
+
 
 
     private fun actualizarDashboard() {
@@ -373,23 +521,88 @@ class MainActivity : AppCompatActivity() {
             contenedor.addView(fila)
 
             //Permite eliminar un movimiento manteniendo presionada su fila.
+
             fila.setOnLongClickListener {
 
+                // Opciones disponibles para el movimiento.
                 val opciones = arrayOf("Editar", "Eliminar")
 
-                AlertDialog.Builder(this)
-                    .setTitle(movimiento.descripcion)
-                    .setItems(opciones) { _, seleccion ->
+                // Creamos un encabezado personalizado.
+                val titulo = TextView(this).apply {
+                    text = movimiento.descripcion
+                    textSize = 20f
+                    setTextColor(android.graphics.Color.WHITE)
+                    setPadding(24, 24, 24, 24)
+                    setTypeface(null, android.graphics.Typeface.BOLD)
+
+                    background = android.graphics.drawable.GradientDrawable().apply {
+                        setColor(android.graphics.Color.rgb(23, 63, 48))
+                        cornerRadii = floatArrayOf(
+                            18f, 18f,
+                            18f, 18f,
+                            0f, 0f,
+                            0f, 0f
+                        )
+                    }
+                }
+
+                // Adaptador personalizado para las opciones.
+                val opcionesAdapter = object : ArrayAdapter<String>(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    opciones
+                ) {
+                    override fun getView(
+                        position: Int,
+                        convertView: android.view.View?,
+                        parent: android.view.ViewGroup
+                    ): android.view.View {
+
+                        val texto = super.getView(
+                            position,
+                            convertView,
+                            parent
+                        ) as TextView
+
+                        texto.setTextColor(
+                            if (position == 0) {
+                                android.graphics.Color.rgb(23, 63, 48)
+                            } else {
+                                android.graphics.Color.rgb(195, 77, 67)
+                            }
+                        )
+
+                        texto.textSize = 17f
+                        texto.setPadding(24, 18, 24, 18)
+
+                        return texto
+                    }
+                }
+
+                // Construimos el menú personalizado.
+                val dialogo = AlertDialog.Builder(this)
+                    .setCustomTitle(titulo)
+                    .setAdapter(opcionesAdapter) { _, seleccion ->
 
                         when (seleccion) {
                             0 -> mostrarFormularioEdicion(movimiento)
                             1 -> confirmarEliminacion(movimiento)
                         }
                     }
-                    .show()
+                    .create()
+
+                // Aplicamos el fondo personalizado.
+                dialogo.setOnShowListener {
+                    dialogo.window?.setBackgroundDrawableResource(
+                        R.drawable.bg_dialogo
+                    )
+                }
+
+                dialogo.show()
 
                 true
             }
+
 
         }
     }

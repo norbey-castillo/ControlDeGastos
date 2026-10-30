@@ -1,30 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- Formulario para registrar o editar movimientos -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="22dp"
+    android:background="#FFFFFF">
+
+    <!-- DESCRIPCIÓN -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descripción del movimiento"
+        android:textColor="#173F30"
+        android:textSize="14sp"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/etDescripcion"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Descripcion"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_campo"
+        android:hint="Ej. Compra de supermercado"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:textColor="#173F30"
+        android:textColorHint="#89958D"
+        android:textSize="14sp"
         android:inputType="textCapSentences"/>
 
-        <EditText
+    <!-- MONTO -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Monto en quetzales"
+        android:textColor="#173F30"
+        android:textSize="14sp"
+        android:textStyle="bold"/>
+
+    <EditText
         android:id="@+id/etMonto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Monto en quetzales"
-        android:inputType="numberDecimal"
-        android:layout_marginTop="12dp" />
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_campo"
+        android:hint="Ej. 150.00"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:textColor="#173F30"
+        android:textColorHint="#89958D"
+        android:textSize="14sp"
+        android:inputType="numberDecimal"/>
 
-        <EditText
-        android:id="@+id/etCategoria"
+    <!-- CATEGORÍA -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Categoria"
-        android:inputType="textCapSentences"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="18dp"
+        android:text="Categoría"
+        android:textColor="#173F30"
+        android:textSize="14sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/etCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_campo"
+        android:hint="Ej. Alimentación"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:textColor="#173F30"
+        android:textColorHint="#89958D"
+        android:textSize="14sp"
+        android:inputType="textCapSentences"/>
+
 </LinearLayout>
