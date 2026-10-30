@@ -24,6 +24,7 @@ class MovimientoDbHelper(context: Context) :
         private const val COL_FECHA = "fecha"
     }
 
+    /*Creamos la tabla, columnas y definimos los tipos de datos*/
     override fun onCreate(db: SQLiteDatabase) {
         val crearTabla = """
             CREATE TABLE $TABLA (
@@ -96,4 +97,14 @@ class MovimientoDbHelper(context: Context) :
 
         return lista
     }
+
+    //Elimina un movimiento de SQlite utilizando su identificador.
+    //Devuelve la cantidad de filas eliminadas.
+    fun eliminarMovimiento(id: Long): Int{
+        //WritableDatabase permite realizar modificaciones.
+        //El metodo delete elimina la fila cuyo ID coincida.
+
+        return writableDatabase.delete(TABLA, "id=?", arrayOf(id.toString()))
+    }
+
 }

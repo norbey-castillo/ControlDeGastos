@@ -198,6 +198,41 @@ class MainActivity : AppCompatActivity() {
             )
 
             contenedor.addView(fila)
+
+            //Permite eliminar un movimiento manteniendo presionada su fila.
+            fila.setOnLongClickListener {
+                //Solicita confirmacion antes de elimianr el registro.
+                AlertDialog.Builder(this)
+                    .setTitle("Eliminar movimiento")
+                    .setMessage("Estas seguro de que deseas eliminar \"${movimiento.descripcion}\"?"
+                    )
+                    .setNegativeButton("Cancelar", null)
+                    .setPositiveButton("Eliminar") { _, _ ->
+
+                        //Elimina el movimiento de la base de datos.
+                        val filasEliminadas = dbHelper.eliminarMovimiento(movimiento.id)
+
+                        if (filasEliminadas > 0) {
+
+                            //Recuperar nuevamente los movimientos almacenados
+                            movimientos.clear()
+                            movimientos.addAll( dbHelper.obtenerMovimientos()
+                            )
+
+                            //Recalcula los totales y actualiza la interfaz.
+                            actualizarDashboard()
+
+                            Toast.makeText(
+                                this,
+                                "Movimiento eliminado correctamente.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    .show()
+                //Indica que el evento de pulsacion prolongada fue atendido.
+                true
+            }
         }
     }
 
