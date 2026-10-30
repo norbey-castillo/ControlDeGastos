@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F5F0"
-    android:fillViewport="true">
+    android:background="#F3F5F1"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,100 +13,185 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- ENCABEZADO -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Estadísticas financieras"
-            android:textColor="#173D2B"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textColor="#173F30"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Conoce el estado de tus finanzas"
+            android:textColor="#718078"
+            android:textSize="14sp"/>
+
+        <!-- BOTÓN VOLVER -->
         <Button
             android:id="@+id/btnVolverEstadisticas"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Volver al inicio"
-            android:textAllCaps="false" />
+            android:layout_height="48dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_boton_secundario"
+            android:backgroundTint="@null"
+            android:text="‹  Volver al inicio"
+            android:textAllCaps="false"
+            android:textColor="#173F30"
+            android:textSize="14sp"
+            android:elevation="1dp"/>
 
-
-        <TextView
+        <!-- TARJETA PRINCIPAL: SALDO -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Total de ingresos"
-            android:textColor="#66756B"
-            android:textSize="14sp" />
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_saldo"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:padding="22dp">
 
-        <TextView
-            android:id="@+id/tvEstadisticaIngresos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Q 0.00"
-            android:textColor="#218653"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SALDO DISPONIBLE"
+                android:textColor="#C9DED1"
+                android:textSize="13sp"
+                android:textStyle="bold"/>
 
-        <TextView
+            <TextView
+                android:id="@+id/tvEstadisticaSaldo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Q 0.00"
+                android:textColor="#FFFFFF"
+                android:textSize="32sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Resumen de tu situación financiera"
+                android:textColor="#C9DED1"
+                android:textSize="13sp"/>
+
+        </LinearLayout>
+
+        <!-- RESUMEN DE INGRESOS Y GASTOS -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Total de gastos"
-            android:textColor="#66756B"
-            android:textSize="14sp" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvEstadisticaGastos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Q 0.00"
-            android:textColor="#C34D43"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            <!-- INGRESOS -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tarjeta"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Saldo disponible"
-            android:textColor="#66756B"
-            android:textSize="14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="INGRESOS"
+                    android:textColor="#718078"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/tvEstadisticaSaldo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Q 0.00"
-            android:textColor="#173D2B"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvEstadisticaIngresos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Q 0.00"
+                    android:textColor="#24845D"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
 
+            </LinearLayout>
+
+            <!-- GASTOS -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tarjeta"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GASTOS"
+                    android:textColor="#718078"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvEstadisticaGastos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Q 0.00"
+                    android:textColor="#C6534D"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- TÍTULO DE CATEGORÍAS -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Gastos por categoría"
-            android:textColor="#173D2B"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textColor="#173F30"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Descubre en qué estás utilizando tu dinero"
+            android:textColor="#718078"
+            android:textSize="13sp"/>
+
+        <!-- MENSAJE CUANDO NO HAY GASTOS -->
         <TextView
             android:id="@+id/tvSinEstadisticas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_tarjeta"
             android:gravity="center"
-            android:padding="20dp"
+            android:padding="24dp"
             android:text="Todavía no hay gastos registrados."
-            android:textColor="#66756B"
-            android:visibility="gone" />
+            android:textColor="#718078"
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
+        <!-- CONTENEDOR DE CATEGORÍAS DINÁMICAS -->
         <LinearLayout
             android:id="@+id/contenedorCategorias"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical" />
+            android:layout_marginTop="14dp"
+            android:orientation="vertical"/>
 
     </LinearLayout>
 

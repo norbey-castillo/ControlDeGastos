@@ -13,6 +13,13 @@ import gt.edu.umg.programacion.core.finanzas.CalculadoraFinanciera
 import gt.edu.umg.programacion.core.model.Movimiento
 import gt.edu.umg.programacion.core.model.TipoMovimiento
 import java.util.Locale
+import android.widget.Button
+
+import android.content.res.ColorStateList
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
+import android.widget.ProgressBar
+
 
 // Actividad encargada de mostrar las estadísticas financieras.
 class EstadisticasActivity : AppCompatActivity() {
@@ -30,6 +37,12 @@ class EstadisticasActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_estadisticas)
 
+        // Aplicamos el fondo personalizado al botón de regreso.
+        val btnVolver = findViewById<Button>(R.id.btnVolverEstadisticas)
+
+        btnVolver.backgroundTintList = null
+        btnVolver.setBackgroundResource(R.drawable.bg_boton_secundario)
+
         // Inicializa el administrador de SQLite.
         dbHelper = MovimientoDbHelper(this)
 
@@ -41,7 +54,7 @@ class EstadisticasActivity : AppCompatActivity() {
             findViewById(R.id.tvSinEstadisticas)
 
         // Permite regresar al dashboard principal.
-        findViewById<android.widget.Button>(
+        findViewById<Button>(
             R.id.btnVolverEstadisticas
         ).setOnClickListener {
             finish()
@@ -81,24 +94,28 @@ class EstadisticasActivity : AppCompatActivity() {
         ).text = formatearMoneda(saldo)
 
         // Calcula los gastos agrupados por categoría.
-        mostrarGastosPorCategoria(movimientos, gastos)
+        mostrarGastosPorCategoria(movimientos, gastos,)
     }
 
     // Agrupa los gastos y calcula qué porcentaje representa cada categoría.
+
+    // Agrupa los gastos y muestra su distribución por categoría.
+
+    // Agrupa los gastos y muestra su distribución por categoría.
     private fun mostrarGastosPorCategoria(
         movimientos: List<Movimiento>,
         totalGastos: Double
     ) {
 
-        // Limpia los resultados anteriores.
+        // Eliminamos las tarjetas anteriores para evitar duplicados.
         contenedorCategorias.removeAllViews()
 
-        // Filtra únicamente los movimientos de tipo gasto.
+        // Obtenemos únicamente los movimientos que son gastos.
         val gastos = movimientos.filter {
             it.tipo == TipoMovimiento.GASTO
         }
 
-        // Agrupa los gastos por categoría y suma sus montos.
+        // Agrupamos los gastos por categoría y sumamos sus montos.
         val gastosPorCategoria = gastos
             .groupBy { it.categoria }
             .mapValues { (_, lista) ->
@@ -107,7 +124,7 @@ class EstadisticasActivity : AppCompatActivity() {
             .toList()
             .sortedByDescending { it.second }
 
-        // Muestra un mensaje si no existen gastos.
+        // Mostramos un mensaje si no existen gastos registrados.
         tvSinEstadisticas.visibility =
             if (gastosPorCategoria.isEmpty()) {
                 View.VISIBLE
@@ -115,55 +132,128 @@ class EstadisticasActivity : AppCompatActivity() {
                 View.GONE
             }
 
-        // Crea una fila para cada categoría.
+        // Creamos una tarjeta para cada categoría.
         for ((categoria, monto) in gastosPorCategoria) {
 
-            // Calcula el porcentaje que representa la categoría.
-            val porcentaje =
-                if (totalGastos > 0) {
-                    (monto / totalGastos) * 100
-                } else {
-                    0.0
+            // Calculamos el porcentaje de participación.
+            val porcentaje = if (totalGastos > 0) {
+                (monto / totalGastos) * 100
+            } else {
+                0.0
+            }
+
+            // TARJETA PRINCIPAL
+            val tarjeta = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(dp(18), dp(16), dp(18), dp(16))
+
+                // Fondo blanco con esquinas redondeadas.
+                background = GradientDrawable().apply {
+                    setColor(Color.WHITE)
+                    cornerRadius = dp(18).toFloat()
                 }
 
-            val fila = LinearLayout(this).apply {
-                orientation = LinearLayout.VERTICAL
-                setPadding(16, 16, 16, 16)
-                setBackgroundColor(Color.WHITE)
+                // Sombra suave.
+                elevation = dp(3).toFloat()
 
                 val parametros = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
 
-                parametros.bottomMargin = 12
+                parametros.bottomMargin = dp(14)
                 layoutParams = parametros
             }
 
-            // Muestra el nombre de la categoría.
+            // FILA SUPERIOR: CATEGORÍA Y MONTO
+            val filaSuperior = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+            }
+
+            // Nombre de la categoría.
             val tvCategoria = TextView(this).apply {
                 text = categoria
                 textSize = 16f
-                setTextColor(Color.rgb(23, 61, 43))
+                setTextColor(Color.rgb(23, 63, 48))
+                setTypeface(null, android.graphics.Typeface.BOLD)
+
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
             }
 
-            // Muestra el monto gastado y su porcentaje.
-            val tvDetalle = TextView(this).apply {
-                text = "${formatearMoneda(monto)}  -  " +
-                        String.format(Locale.US, "%.1f%%", porcentaje)
-
-                textSize = 14f
-                setTextColor(Color.rgb(102, 117, 107))
-                setPadding(0, 8, 0, 0)
+            // Monto gastado.
+            val tvMonto = TextView(this).apply {
+                text = formatearMoneda(monto)
+                textSize = 15f
+                setTextColor(Color.rgb(36, 132, 93))
+                setTypeface(null, android.graphics.Typeface.BOLD)
+                gravity = Gravity.END
             }
 
-            // Agrega los textos a la fila.
-            fila.addView(tvCategoria)
-            fila.addView(tvDetalle)
+            // Agregamos ambos textos a la fila.
+            filaSuperior.addView(tvCategoria)
+            filaSuperior.addView(tvMonto)
 
-            // Agrega la fila al contenedor principal.
-            contenedorCategorias.addView(fila)
+            // DETALLE DEL PORCENTAJE
+            val tvPorcentaje = TextView(this).apply {
+                text = String.format(
+                    Locale.US,
+                    "%.1f%% del total de gastos",
+                    porcentaje
+                )
+
+                textSize = 13f
+                setTextColor(Color.rgb(113, 128, 120))
+                setPadding(0, dp(10), 0, dp(10))
+            }
+
+            // BARRA DE PROGRESO
+            val barra = ProgressBar(
+                this,
+                null,
+                android.R.attr.progressBarStyleHorizontal
+            ).apply {
+
+                // El porcentaje se representa en una escala de 0 a 100.
+                max = 100
+                progress = porcentaje.toInt().coerceIn(0, 100)
+
+                // Color verde de la barra.
+                progressTintList = ColorStateList.valueOf(
+                    Color.rgb(36, 132, 93)
+                )
+
+                // Fondo gris claro de la barra.
+                progressBackgroundTintList = ColorStateList.valueOf(
+                    Color.rgb(226, 234, 228)
+                )
+
+                isIndeterminate = false
+            }
+
+            // Altura de la barra y ancho completo.
+            val parametrosBarra = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                dp(8)
+            )
+
+            // Agregamos los elementos a la tarjeta.
+            tarjeta.addView(filaSuperior)
+            tarjeta.addView(tvPorcentaje)
+            tarjeta.addView(barra, parametrosBarra)
+
+            // Agregamos la tarjeta al contenedor principal.
+            contenedorCategorias.addView(tarjeta)
         }
+    }
+
+    // Convierte unidades dp a píxeles según la pantalla.
+    private fun dp(valor: Int): Int {
+        return (valor * resources.displayMetrics.density).toInt()
     }
 
     // Convierte un número a formato de moneda guatemalteca.
