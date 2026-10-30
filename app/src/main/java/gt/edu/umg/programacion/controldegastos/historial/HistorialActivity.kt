@@ -31,6 +31,13 @@ class HistorialActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_historial)
 
+        // Permite regresar al dashboard principal.
+        findViewById<android.widget.Button>(
+            R.id.btnVolverHistorial
+        ).setOnClickListener {
+            finish()
+        }
+
         // Inicializa el administrador de SQLite.
         dbHelper = MovimientoDbHelper(this)
 

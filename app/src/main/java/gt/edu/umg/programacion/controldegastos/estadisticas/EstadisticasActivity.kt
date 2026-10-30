@@ -39,6 +39,13 @@ class EstadisticasActivity : AppCompatActivity() {
 
         tvSinEstadisticas =
             findViewById(R.id.tvSinEstadisticas)
+
+        // Permite regresar al dashboard principal.
+        findViewById<android.widget.Button>(
+            R.id.btnVolverEstadisticas
+        ).setOnClickListener {
+            finish()
+        }
     }
 
 
