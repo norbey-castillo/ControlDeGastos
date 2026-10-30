@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F5F0"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Estadísticas financieras"
+            android:textColor="#173D2B"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Total de ingresos"
+            android:textColor="#66756B"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvEstadisticaIngresos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Q 0.00"
+            android:textColor="#218653"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Total de gastos"
+            android:textColor="#66756B"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvEstadisticaGastos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Q 0.00"
+            android:textColor="#C34D43"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Saldo disponible"
+            android:textColor="#66756B"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvEstadisticaSaldo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Q 0.00"
+            android:textColor="#173D2B"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Gastos por categoría"
+            android:textColor="#173D2B"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSinEstadisticas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="Todavía no hay gastos registrados."
+            android:textColor="#66756B"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/contenedorCategorias"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -26,6 +26,11 @@
             android:name=".historial.HistorialActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".estadisticas.EstadisticasActivity"
+            android:exported="false" />
+
+
     </application>
 
 </manifest>
