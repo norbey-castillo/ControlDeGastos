@@ -12,6 +12,7 @@ import gt.edu.umg.programacion.controldegastos.R
 import gt.edu.umg.programacion.controldegastos.data.MovimientoDbHelper
 import gt.edu.umg.programacion.core.model.Movimiento
 import gt.edu.umg.programacion.core.model.TipoMovimiento
+import android.widget.Button
 
 // Actividad encargada de mostrar y filtrar el historial.
 class HistorialActivity : AppCompatActivity() {
@@ -30,6 +31,12 @@ class HistorialActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_historial)
+
+        // Quitamos el color automático del tema de Android
+        val btnVolver = findViewById<Button>(R.id.btnVolverHistorial)
+
+        btnVolver.backgroundTintList = null
+        btnVolver.setBackgroundResource(R.drawable.bg_boton_secundario)
 
         // Permite regresar al dashboard principal.
         findViewById<android.widget.Button>(
@@ -81,17 +88,19 @@ class HistorialActivity : AppCompatActivity() {
             "Gastos"
         )
 
+
         val spinnerAdapter = ArrayAdapter(
             this,
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             tipos
         )
 
         spinnerAdapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
+            R.layout.spinner_dropdown_item
         )
 
         spFiltroTipo.adapter = spinnerAdapter
+
 
         spFiltroTipo.onItemSelectedListener =
             object : android.widget.AdapterView.OnItemSelectedListener {
@@ -118,17 +127,19 @@ class HistorialActivity : AppCompatActivity() {
                     .distinct()
                     .sorted()
 
+
         val spinnerAdapter = ArrayAdapter(
             this,
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             categorias
         )
 
         spinnerAdapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
+            R.layout.spinner_dropdown_item
         )
 
         spFiltroCategoria.adapter = spinnerAdapter
+
 
         spFiltroCategoria.onItemSelectedListener =
             object : android.widget.AdapterView.OnItemSelectedListener {
